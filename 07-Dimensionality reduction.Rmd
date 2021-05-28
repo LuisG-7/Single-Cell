@@ -1,0 +1,63 @@
+---
+title: "07-Dimensionality Reduction"
+author: "Luis Fernández"
+date: "5/12/2021"
+output: html_document
+---
+
+##Dimensionality Reduction
+
+When it comes a dataset with several variables, it gets hard to analyze all the variables, so dimensionality reduction refers to any  approach that reduces the number of variables in a dataset to a few highly informative or representative ones.
+
+In single cell, the aim of dimensionality reduction is to facilitate the data visualization and reducind the data complexity.Thus, it also improves the cluster analysis, as several cluster algorithms suffer from high dimensions.
+
+The expression matrix that came from single cell experiments has a high proportion of  zero expression entries which makes it a highly nonlinear structure. This is due to the high proportion of genes that are not expressed in a cell and those genes that are low expressed and their mRNA transcripts may be lost during reverse transcription and amplification steps. This is called as 'dropout effect'@Zhang
+ 
+The dimensionality reduction methods are clasified into two types: linear and nonlinear techniques @Xiaoxiao. A good approach for this type of datasets should be a nonlinear technique, however a linear approach is used in order to slect the top principal components
+that can be used in a cluster analysis.
+
+##7.1 Linear methods.
+
+PCA is one of the most common approaches used as a pre-processing step for non-linear dimensionality reduction methods @articulo.As mentioned above, once the principal components are selected, then a nonlinear method is choosen in order to reduce the complexity of the data and continue with the cluster analysis.
+
+This method works reducing the dimensions by maximizing the captured residual variance in each further dimension, after that, those principal components with the lowest variance are discarded @Shivangi, in such way to get only the principal components with the highest variance. 
+
+There are two visulization methods that allow  to select how many principal components are taken into account: One is graphing the elbow plot that rank the principle components based on the percentage of variance explained by each one and the other one known as Jackstraw method shows the p-values for each principle component. P-values are compared with a uniform distribution represented as a dashed line, and those PC that are significant are above this dashed line @Seurat.
+!['Elbow plot'](/media/user/ADATA UFD/single cell/single cell guide/images/elbow.png)
+!['Jackstraw'](/media/user/ADATA UFD/single cell/single cell guide/images/jsplots-1.png)
+It is important to note that there is more than just one linear approach, however this is one of the most common.
+
+##7.2 Nonlinear methods
+
+For visualization purposes,non-linear dimensionality reduction methods are preferred in practice. There are a lot of nonlinear methods, but in practice the most common used are t-SNE and UMAP.
+
+When it comes about visulization and choosing the most adecuated algorithm to analyze the data, it is importat to note how well each algorithm preserve the local and global structure of the data. By local, it means  how well clustered each different category is, while global refers to how well these clusters tend to colocate @Coenen.
+
+
+####7.2.1 T-distributed stochastic neighbour embedding (t-SNE)
+
+t-SNE is great at capturing the non-linear structure in high dimensional data, at least preserving the local structure,  meaning that if two points are close together in the high dimensional space, they have a high probability of being close together in the low dimensional embedding space @Allison. t-SNE dimensions focus on capturing local similarity at the expense of global structure. The global structure refers to how meaningful are the inter-cluster relations.
+
+The complexity in the algorithm performed by t-SNE is to choose the right value for its parameter called 'perplexity', which is about the number of close neighbors each point has @Distill and is very sensitive to this parameter. This means that the results might be different using an only slightly different perplexity value @Stack.
+
+Besides, the more complex the data is and the more the perplexity value increases, the more time it takes for the algorithm to run.
+
+Once the t-SNE is plotted, it is important to note that the distances between the clusters are not meaningful.
+
+###7.2.2 Uniform Manifold Approximation and Projection (UMAP)
+
+There are some similarities between UMAP and t-SNE, both use graph layout algorithms to arrange data in low-dimensional space. Despite that both algorothms work very similar, UMAP is faster and tends to better preserve the global structure of the data @Coenen.
+
+Unlike t-SNE, UMAP uses two parameters to control the balance between local and global structure in the final projection. These are 'n_neighbors' and ' min_dist'. n_neighbors determines the number of approximate nearest neighbors while min_dist is the minimum distance between points in the low-dimensional space; these parameters control how UMAP balances local versus global structure which depends on the value assigned to n_neighbors and control ow tightly or loosely UMAP clumps points together, respectively.
+
+The most important difference between t-SNE AND UMAP is how well UMAP tends to preserve the global structure. 'This means that the inter-cluster relations are potentially more meaningful than in t-SNE' @Coenen.
+
+As in t-SNE, it is also important to choose carefully the adecuated values for the parameters based on both the data and the purpose @Coenen.
+
+
+
+
+
+
+
+

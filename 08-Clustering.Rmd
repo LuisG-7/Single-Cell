@@ -1,0 +1,59 @@
+---
+title: "08-Clustering"
+author: "Luis Fernández"
+date: "5/18/2021"
+output: html_document
+---
+
+A fundamental step in the analysis of single cell data is the identification of putative cell types, usally done through unsupervised clustering.
+
+Clustering attempts to find groups called clusters. The members of a cluster should be more similar to each other, than to objects in other clusters. In single cell clusters are obtained by grouping cells based on the similarity of their gene expression profiles
+
+There are several methods applied by different tools, each one with its respective limitations and strenghts that must be taken into account in order to choose the appropriate method that best suits to the puropose and the data. 
+
+Some of the methods that are available.
+
+| Tool Name      | Method Type | Strengts | Limitations |
+| -------------- | ------------|----------|-------------|
+| Scanpy     | PCA+graph-based |	Very scalable |	May not be accurate for small data sets |
+| Seurat     | PCA+graph-based | Very scalable 	| May not be accurate for small data sets  |
+| PhenoGraph | PCA+graph-based |	Very scalable |	May not be accurate for small data sets |
+| SC3        | PCA+k-means |	High accuracy through consensus, provides estimation of k |	High complexity, not scalable  |
+| SIMLR      | Data-driven dimensionality reduction+k-means |	Concurrent training of the distance metric improves sensitivity in noisy data sets |	Adjusting the distance metric to make cells fit the clusters may artificially inflate quality measures  |
+| CIDR       | PCA+hierarchical |	Implicitly imputes dropouts when calculating distances  | |
+| GiniClust  | DBSCAN |	Sensitive to rare cell types |	Not effective for the detection of large clusters  |
+| pcaReduce  | PCA+k-means+hierarchical |	Provides hierarchy of solutions |	Very stochastic, does not provide a stable result   |
+| Tasic et al| PCA+hierarchical |	Cross validation used to perform fuzzy clustering |	High complexity, no software package available  |
+| TSCAN      | PCA+Gaussian mixture model |	Combines clustering and pseudotime analysis 	Assumes clusters follow multivariate normal distribution  |
+| mpath      | PCA + Gaussian mixture model |	Combines clustering and pseudotime analysis 	Assumes clusters follow multivariate normal distribution  |
+| BackSPIN   | Biclustering (hierarchical) |	Multiple rounds of feature selection improve clustering resolution |	Tends to over-partition the data  |
+| Race-ID    | k-Means |	Detects rare cell types, provides estimation of k |	Performs poorly when there are no rare cell types  |
+| SINCERA   | Hierarchical |	Method is intuitively easy to understand |	Simple hierarchical clustering is used, may not be appropriate for very noisy data  |
+| SNN-Cliq   | Graph-based |	Provides estimation of k |	High complexity, not scalable  |
+
+The data from this table was recopilated from @Clusters
+
+A brief description of some of the methods:
+
+*Density-Based Spatial Clustering of Applications with Noise (DBSCAN):groups the data points together based on the distance metric and criterion for a minimum number of data points. It takes two parameters – eps and minimum points. Eps indicates how close the data points should be to be considered as neighbors while the minimum points should be considered that region as a dense region.
+
+*Hierarchical Clustering:The clusters are based on the distance matrix. At first, each data point act as a cluster that then are grouped. These algorithms create a distance matrix of all the existing clusters and perform the linkage between the clusters depending on the criteria of the linkage and is particulary good for large data sets. 
+
+*k-means: The most popular clustering algorithm. K-means works dividing cells into k clusters by determining cluster centroids and assigning cells to the nearest cluster centroid. Centroid positions are iteratively optimized @articulo. This approach requires an input of the number of clusters expected, which is usually unknown and must be calibrated heuristically and is particulary good for large data sets.
+
+*Graphs: Each graph consists of a set of nodes connected to each other with a set of edges. In single-cell RNA sequencing, nodes are cells, and edges are determined according to cell–cell pairwise distances. An advantage is that most graph-based methods do not require the user to specify the number of clusters to identify, instead employing indirect resolution parameters.
+
+###8.1 Clustering challenges
+
+The data from single-cell RNA-seq experiments always comes with some kind of noise such as technical, biological or computaional which in one way or the other impact how the clusters are grouped. This may cause some differences in some clusters that in spite of the fact that they belong to the same cell type are clustered separetly.
+
+One shortcoming of most clustering methods is that they will partition the data, regardless of whether or not there are any biologically meaningful groups present. Although some methods (for example, SC3, SINCERA and pcaReduce) can determine that only a single group is present, clustering methods often mistake random noise for true structure because of heuristic optimization which is when the algorithm sacrifice accuracy in favour of speed @Clusters.
+
+
+Technical challenges such as batch effect represent a clustering problem because there are changes in the gene expression due to  to experimental factors, for example, the time of the experiment, the laboratory where it was carried out, the person carrying out the experiment or the lane used in the sequencing machine so when it comes the data integration there are some differeces in how the clusters are grouped in spite of the fact that some clusters belong to the same cell type.
+
+Altough there are some methods that enable batch effect correction, there must be always an strategy where there is a experimental design to follow and being careful in how the samples are handled i order to avoid the bathc effect.
+
+Sometimes clustering is schocked by the cell-cycle phase when is confunded with other cell-type identity.
+
+Some cluster methods required from the user to choose parameters, for example k-means, the user must choose the number of nearest neighbours (k) when constructing a graph and this implies a computaional challenge. Most of the times is not as easy to choose the right parameter that best suit to the data so there are computational methods available to help guide the choice of k @Clusters.

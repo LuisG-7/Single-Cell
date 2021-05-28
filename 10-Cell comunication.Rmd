@@ -1,0 +1,37 @@
+---
+title: "cell comunication"
+author: "Luis Fernández"
+date: "5/20/2021"
+output: html_document
+---
+
+In addition to determining the cell type for each cluster and the differently expressed genes of each cluster, it is also possible to infer the cell comunications behavior between the different cell types discovered.
+
+To understand the role of each cell within its local community, one must identify the protein messages passed between cells; measuring expressed messenger molecules and their associated pathways is fundamental to understanding the directionality, magnitude and biological relevance of Cell-Cell Comunication.
+
+The general workflow in order to construct a visualization of the cell communications usually represented as a network requires a gene expression matrix and a list of interacting proteins that are involved in intercellular communication which is generated or obtained from other sources.There are publicly repositories available where the ligand–receptor pair can be obtained. .After that, the gene expression matrix can be filtered in order to get only those genes associated with the interacting proteins.Next, the expression levels of each gene are used as inputs to compute a communication score for each ligand–receptor pair using a scoring function. Finally, communication score can be represented through an network visualization which facilitates the intepretetation of the results @Armingol
+
+The network contruction is based on the score values, however there are two types of scores:binary and continuous. Each one has its own approaches to calculate the values.While binary scores are simpler, the continuous scores enable more precise quantification of intercellular signalling.The difference lies in how the values are expressed, for instance the binary scores are represented with 1 and 0 where 1 indicates that ligand-receptor pair is active while 0 means that it is inactive and for continuos score the values are expressed as ordinary numbers that are also subject to threshold.
+
+| Type of score  | Scoring function | Features |
+| -------------- | -----------------|-------------|
+| Continuous     | expression product     	 | If some gene is expressed above a threshold, the ligand–receptor pair is considered ‘active’; otherwise it is ‘inactive’	 |
+| Continuous     | expression correlation    | This score is the correlation between expression values of the interacting proteins across many samples  |
+| Binary         | differential combinations |  A communication pathway is active when the ligand is differentially expressed in one cell and its cognate receptor is differentially expressed in the other   |
+| Binary         | expression thresholding   | If some gene is expressed above a threshold, the ligand–receptor pair is considered ‘active’; otherwise it is ‘inactive’	 |
+
+!['Cell communication'](/media/user/ADATA UFD/single cell/single cell guide/images/cccworkflow.png)
+!['Cell communication'](/media/user/ADATA UFD/single cell/single cell guide/images/ccscores.png)
+
+Thera are several tools available with different approaches that are classified based on how they get the scores and the mathematical model used to for or identifying ligand–receptor interactions. Actually, there are four categories:differential combination-based, network-based, expression permutation-based and array-based tools.
+
+Tools based in the mehtods mentioned above uses different stategies to infer cell communication. The differential combination mehthod identify the  differentially expressed genes  between cell clusters and the genes are compared with the list of ligand-receptor pairs.In network-based tools takes advanatage of the connections between genes in order to identify the the expression levels of genes involved in ligand–receptor signalling. The permutations based tools are the most widely use because it calculates a communication score for each ligand-receptor pair. And tensor method is one of the most sophisticted used. @Armingol.
+
+It is important to note that some tools only take into account one ligand-recepetor interaction, neglecting the possibilities of the several interactions of one receptor with different ligands. Besides each tool includes visulization features @Suoqin.
+
+Tools available for scoring cell communication
+
+Here there is a link that shows a complete list of existing tools and their features.
+
+[Tools table](https://www.nature.com/articles/s41467-021-21246-9)
+

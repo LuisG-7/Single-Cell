@@ -1,0 +1,28 @@
+---
+title: "09-Clustering annotation"
+author: "Luis Fernández"
+date: "5/18/2021"
+output: html_document   
+---
+
+Cell type annotation is a crucial step in analyzing single-cell RNA sequencing data,that way each cluster is attached with a label that represents the identity of cells within the cluster. However, instead of using the term cell type is more advisable to use the term cell identity annotation due to that some cells are found in different states and might be detected as different clusters despite belonging to the same cell type. 
+
+To overcome this step, there are two approaches for cell-identity annotation: manual and automated, each one with theirs benefits and limitations. While automated cell annotation makes the process faster, it is important to note that in some cases the reference databases will not contain exactly the same cell identities as the dataset under investigation due to a new cell type that has not been discovered before, therefore the manual annotation should be considered. Although if the datasets is enough large and contain many clusters, combining both approaches is one of the best practices for cluster annotation @Elsevier.
+
+Unlike automated annotation, mannual annotation is very time-consumming and suffers from limited reproducibility. However, to overcome these limitations there are, at least, three strategies for automated annotation widely used that speed up the process that are implemented by diferent tools. 
+
+Clustering annotation is done through one of three strategies implemented by an automatically annotated approach: annotation by curated marker gene; correlation-based methods; transferring labels by supervised classification.
+
+For marker gene methods can be both database-derived or manually-curated lists and the standard protocol consist in finding the genes that are uniquely expressed in each cluster and match those genes to lists of canonical cell-type markers so in the absence of a reference dataset, marker gene databases are widely used @articulo2.This method works using a scoring system that match cell types in the unlabeled dataset.
+
+Literature- and scRNA-seq analysis-derived markers have been assembled into reference cell type hierarchies and marker lists. 
+
+Interpreting the output of these marker gene discovery methods can be challenging for new users.As marker genes are expected to have strong differential expression effects, simple statistical tests such as the Wilcoxon rank-sum test or the t-test are often used to rank genes. the P-values obtained for marker genes are based on the assumption that the obtained cell clusters represent the biological ground truth, instead the log fold change of gene expression can be a helpful metric, as it is indicative of the magnitude of the difference in
+gene expression @articulo. 
+
+There are a lot of single cell data repositories available and ready to be used in the annotation step.Correlation-based methods are used in order to transfer the labels from one reference dataset to the query dataset.Correlation-based methods work comparing the gene expression beetwen a reference dataset already labeled and the dataset that is under investigation. In this approach, each tool use their own steps and algorithm in order to find the reference cell cluster that best mathces with the cluster unlabeled from the data under investigation.
+
+The last annotation method called supervised classification uses machine learning techniques for training a classifier on reference labeled scRNA-seq datasets. Then, the clasiffier is applied to the dataset without any annotations,  meaning that the trained model is used to assign labels to the unlabeled datasets.
+
+
+!['Automated annotation'](/media/user/ADATA UFD/single cell/single cell guide/images/marker genes.jpg)

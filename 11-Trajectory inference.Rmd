@@ -1,0 +1,23 @@
+---
+title: "trajectory inference"
+author: "Luis Fernández"
+date: "5/25/2021"
+output: html_document
+---
+
+The cell diversity is not completly undesrtood by only classified them in clusters. The transition between one cell identitie and other must be explored by looking for paths through cellular clusters that minimize transcriptional changes between neighbouring cells. This is called trajectory inference: the transition between cell identities @articulo.
+
+Single cell povide new opportunities for studying cellular dynamic processes, such as the cell cycle, cell differentiation and cell activation through trajectory inference modeling. Trejectory inference order cells along a trajectory based on similarities in their expression patterns @Saelens.
+
+Nowdays, there are a lot of tools that can be used and choosing the right one depends on the dataset dimensions and the expected trajectory.Currently available TI methods differ in the
+complexity of the paths that are modelled. Models range from simple linear or bifurcating trajectories, to complex graphs, trees, or multifurcating trajectories @articulo.
+
+The trajectories do not pretend to infer some biological proccess, intead of that denote the transcriptional similarities between cells groups.
+
+A guideline proposed by @Saelens, based on the results of benchmark where 45 TI methods were compared taking into account the accuracy of the prediction, the scalability with respect to the number of cells and features , the stability after subsampling and the usability meaning how well the documnetation of the software is. Basically, this guideline proposed that the method shold be selected in the expected trajectory, although in some cases this may not know and the trajectory must be confirmed using multiple TI methods.
+
+!['Guideline'](/media/user/ADATA UFD/single cell/single cell guide/images/guideline.png)
+
+
+
+
